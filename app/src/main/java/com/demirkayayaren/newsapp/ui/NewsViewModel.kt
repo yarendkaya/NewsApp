@@ -3,7 +3,6 @@ package com.demirkayayaren.newsapp.ui
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,8 +13,6 @@ import com.demirkayayaren.newsapp.util.Resource
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.Response
-import androidx.core.content.ContextCompat
-import android.content.pm.PackageManager
 
 class NewsViewModel(app: Application, val newsRepository: NewsRepository) : AndroidViewModel(app) {
     val headlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
@@ -76,16 +73,7 @@ class NewsViewModel(app: Application, val newsRepository: NewsRepository) : Andr
     }
 
     fun internetConnection(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        return connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
-            when {
-                hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                else -> false
-            }
-        } ?: false
+
     }
 
     private suspend fun headlinesInternet(countryCode: String) {
