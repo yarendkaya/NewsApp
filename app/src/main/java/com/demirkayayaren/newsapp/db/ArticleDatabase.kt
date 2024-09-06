@@ -23,6 +23,7 @@ abstract class ArticleDatabase : RoomDatabase() {
         @Volatile
         private var instance: ArticleDatabase? = null
         private val LOCK = Any()
+        //only one thread can execute the code inside the block at a time.
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
             instance ?: createDatabase(context).also {

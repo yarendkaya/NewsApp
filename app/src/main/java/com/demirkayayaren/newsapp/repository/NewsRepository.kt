@@ -13,6 +13,7 @@ class NewsRepository(val db: ArticleDatabase) {
         RetrofitInstance.api.searchForNews(searchQuery, pageNumber)
 
     suspend fun upsert(article: Article) = db.getArticleDao().upsert(article)
+    //üstteki kodu anlamadım
 
     fun getFavouritesNews() = db.getArticleDao().getAllArticles()
 
